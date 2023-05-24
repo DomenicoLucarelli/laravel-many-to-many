@@ -1,10 +1,12 @@
 @extends('layouts/admin')
 
 @section('content')
+
 <h1 class="text-center">I miei lavori</h1>
 <div class="container d-flex justify-content-center gap-4 mt-5">
   @foreach ($works as $work)
   
+    {{-- @dd($work->technologies[0]->name) --}}
         
     <div class="card" style="width: 18rem;">
       <img src="{{$work->image}}" class="card-img-top" alt="...">
@@ -16,6 +18,19 @@
         <li class="list-group-item"><b>Date: </b>{{$work->date}}</li>
         <li class="list-group-item"><b>Categoria:</b> {{$work->type->name ?? 'nessuna'}} </li>
       </ul>
+      <div class="card-body ">
+      <b>Tecnologia:</b>
+      @if ($work->technologies->isEmpty())
+      <span>nessuna</span>
+      @else
+      
+      @foreach ($work->technologies as $tech)
+          
+      <span class="badge rounded-pill mx-1" style="background-color: {{$tech->color}}">{{$tech->name}}</span>
+      @endforeach
+      
+      @endif
+      </div>
       <div class="card-body text-center">
         <a href="{{$work->git_url}}" ><i class="fa-brands fa-github fs-1 "></i></a> 
       </div>

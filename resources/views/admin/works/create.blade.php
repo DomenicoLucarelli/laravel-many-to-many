@@ -70,6 +70,18 @@
 
         </div>
         @enderror
+        
+        <h6>Inserisci tecnologia/e</h6>
+        <div class="d-flex gap-2 form-check">
+
+            @foreach ($technologies as $technology)
+                
+            <label for="tech-{{$technology->id}}">{{$technology->name}}</label>
+            <input type="checkbox" name="technologies[]" id="tech-{{$technology->id}}" value="{{$technology->id}}">
+    
+            @endforeach
+
+        </div>
 
             
         <label for="git_url">Inserisci src GITHUB</label>

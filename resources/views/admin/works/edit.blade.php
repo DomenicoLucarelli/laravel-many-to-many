@@ -71,6 +71,17 @@
 
         </div>
         @enderror
+
+        <h6>Inserisci tecnologia/e</h6>
+        <div class="d-flex gap-2 form-check">
+            @foreach ($technologies as $technology)
+                
+            <label for="tech-{{$technology->id}}">{{$technology->name}}</label>
+            <input type="checkbox" name="technologies[]" id="tech-{{$technology->id}}" value="{{$technology->id}}" @checked($work->technologies->contains($technology))>
+    
+            @endforeach
+
+        </div>
             
         <label for="git_url">Modifica src GITHUB</label>
         <input class="form-control @error('git_url') is-invalid @enderror" type="text" id="git_url" name="git_url" placeholder="Inserisci src immagine" value="{{old('git_url') ?? $work->git_url}}">

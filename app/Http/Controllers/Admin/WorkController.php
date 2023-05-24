@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 use App\Models\Type;
 use App\Models\Work;
 use Illuminate\Http\Request;
@@ -33,7 +34,9 @@ class WorkController extends Controller
     {
         $types = Type::all();
 
-        return view('admin/works/create', compact('types'));
+        $technologies = Technology::all();
+
+        return view('admin/works/create', compact('types', 'technologies'));
     }
 
     /**
@@ -60,6 +63,10 @@ class WorkController extends Controller
 
         $work->save();
 
+        if(array_key_exists('technologies',$formData)){
+            $work->technologies()->attach($formData['technologies']);
+        }
+
         return redirect()->route('admin.works.index');
     }
 
@@ -83,7 +90,10 @@ class WorkController extends Controller
     public function edit(Work $work)
     {
         $types = Type::all();
-        return view('admin/works/edit', compact('work','types'));
+
+        $technologies = Technology::all();
+
+        return view('admin/works/edit', compact('work','types', 'technologies'));
     }
 
     /**
@@ -102,6 +112,12 @@ class WorkController extends Controller
         $work->update($formData);
 
         $work->save();
+
+        if(array_key_exists('technologies',$formData)){
+            $work->technologies()->sync($formData['technologies']);
+        }else{
+            $work->technologies()->detach();
+        }
 
         return redirect()->route('admin.works.index');
     }
