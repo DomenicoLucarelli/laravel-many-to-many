@@ -48,6 +48,8 @@
                         <li class="nav-item d-flex">
                             <a class="nav-link" href="{{route('admin.works.index')}}">Home</a>
                             <a class="nav-link" href="{{route('admin.types.index')}}">Types</a>
+                            <a class="nav-link" href="{{route('admin.technologies.index')}}">Technologies</a>
+
 
                         </li>
                     </ul>

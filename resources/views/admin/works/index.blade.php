@@ -19,17 +19,19 @@
         <li class="list-group-item"><b>Categoria:</b> {{$work->type->name ?? 'nessuna'}} </li>
       </ul>
       <div class="card-body ">
-      <b>Tecnologia:</b>
-      @if ($work->technologies->isEmpty())
-      <span>nessuna</span>
-      @else
-      
-      @foreach ($work->technologies as $tech)
-          
-      <span class="badge rounded-pill mx-1" style="background-color: {{$tech->color}}">{{$tech->name}}</span>
-      @endforeach
-      
-      @endif
+
+        <b>Tecnologia:</b>
+        @if ($work->technologies->isEmpty())
+        <span>nessuna</span>
+        @else
+        
+        @foreach ($work->technologies as $tech)
+            
+        <span class="badge rounded-pill mx-1" style="background-color: {{$tech->color}}">{{$tech->name}}</span>
+        @endforeach
+        
+        @endif
+        
       </div>
       <div class="card-body text-center">
         <a href="{{$work->git_url}}" ><i class="fa-brands fa-github fs-1 "></i></a> 
