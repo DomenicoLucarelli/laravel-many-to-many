@@ -111,6 +111,8 @@ class WorkController extends Controller
 
         $work->update($formData);
 
+        $work->slug = Str::slug($formData['title'], '-');
+
         $work->save();
 
         if(array_key_exists('technologies',$formData)){
@@ -148,6 +150,7 @@ class WorkController extends Controller
             'image'=> 'required|min:2',
             'date'=> 'nullable',
             'type_id'=>'nullable|exists:types,id',
+            'technologies'=>'exists:technologies,id',
             'git_url'=> 'required|min:2',
         ],
         
@@ -161,9 +164,9 @@ class WorkController extends Controller
             'image.required'=> 'Questo campo non può essere lascaito vuoto',
             'image.min'=> 'Questo campo deve avere minimo 2 caratter',
             'type_id.exists'=>'Questo campo non è ammesso',
+            'technologies.exists'=> 'Questo campo non è ammesso',
             'git_url.required'=> 'Questo campo non può essere lascaito vuoto',
             'git_url.min'=> 'Questo campo deve avere minimo 2 caratter',
-            
             
             
         ])->validate();
@@ -187,6 +190,8 @@ class WorkController extends Controller
             'date'=> 'nullable',
             'type_id'=>'nullable|exists:types,id',
             'git_url'=> 'required|min:2',
+            'technologies'=>'exists:technologies,id'
+
         ], [
             'title.required'=> 'Questo campo non può essere lascaito vuoto',
             'title.min'=> 'Questo campo deve avere minimo 2 caratter',
@@ -199,6 +204,8 @@ class WorkController extends Controller
             'type_id.exists'=>'Questo campo non è ammesso',
             'git_url.required'=> 'Questo campo non può essere lascaito vuoto',
             'git_url.min'=> 'Questo campo deve avere minimo 2 caratter',
+            'technologies.exists'=> 'Questo campo non è ammesso',
+
         ])->validate();
     
         return $validator;

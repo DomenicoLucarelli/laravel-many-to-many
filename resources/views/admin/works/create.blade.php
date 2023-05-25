@@ -72,16 +72,23 @@
         @enderror
         
         <h6>Inserisci tecnologia/e</h6>
+        
         <div class="d-flex gap-2 form-check">
 
             @foreach ($technologies as $technology)
                 
-            <label for="tech-{{$technology->id}}">{{$technology->name}}</label>
-            <input type="checkbox" name="technologies[]" id="tech-{{$technology->id}}" value="{{$technology->id}}">
+                <label for="tech-{{$technology->id}}">{{$technology->name}}</label>
+                <input type="checkbox" name="technologies[]" id="tech-{{$technology->id}}" value="{{$technology->id}}" @checked(in_array($technology->id, old('technologies', [])))>
     
             @endforeach
 
+            
         </div>
+        @error('technologies') 
+            <div class="text-danger">
+            {{$message}}
+            </div>
+        @enderror
 
             
         <label for="git_url">Inserisci src GITHUB</label>

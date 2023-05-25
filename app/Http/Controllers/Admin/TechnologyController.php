@@ -93,6 +93,8 @@ class TechnologyController extends Controller
 
         $technology->update($formData);
 
+        $technology->slug = Str::slug($formData['name'], '-');
+
         $technology->save();
 
         return redirect()->route('admin.technologies.index'); 
