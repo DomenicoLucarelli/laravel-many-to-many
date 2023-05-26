@@ -4,7 +4,7 @@
 <h1 class="text-center mb-5 text-uppercase">Aggiungi un progetto</h1>
 <div class="container d-flex flex-column">
     
-    <form class="d-flex flex-column align-items-center gap-2" action="{{route('admin.works.store')}}" method="POST">
+    <form class="d-flex flex-column align-items-center gap-2" action="{{route('admin.works.store')}}" method="POST" enctype="multipart/form-data">
 
         @csrf
         <label for="title">Inserisci il titolo</label>
@@ -30,7 +30,7 @@
         @enderror
             
         <label for="image">Inserisci src immagine</label>
-        <input class="form-control @error('image') is-invalid @enderror" type="text" id="image" name="image" placeholder="Inserisci src immagine" value="{{old('image')}}">
+        <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" placeholder="Inserisci immagine">
 
         @error('image')
         <div class="invalid-feedback">
@@ -92,7 +92,7 @@
 
             
         <label for="git_url">Inserisci src GITHUB</label>
-        <input class="form-control @error('git_url') is-invalid @enderror" type="text" id="git_url" name="git_url" placeholder="Inserisci src immagine" value="{{old('git_url')}}">
+        <input class="form-control @error('git_url') is-invalid @enderror" type="text" id="git_url" name="git_url" placeholder="Inserisci src gitHub" value="{{old('git_url')}}">
 
         @error('git_url')
         <div class="invalid-feedback">

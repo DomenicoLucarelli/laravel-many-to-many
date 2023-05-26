@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('title',50)->unique();
             $table->text('description');
-            $table->text('image');
+            $table->text('image')->nullable();
             $table->date('date')->nullable();
             $table->text('git_url');
             $table->string('slug',50);

@@ -7,6 +7,7 @@ use App\Models\Technology;
 use App\Models\Type;
 use App\Models\Work;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -53,12 +54,13 @@ class WorkController extends Controller
 
         $work = new Work();
 
-        $work->title = $formData['title'];
-        $work->type_id = $formData['type_id'];
-        $work->description = $formData['description'];
-        $work->image = $formData['image'];
-        $work->date = $formData['date'];
-        $work->git_url = $formData['git_url'];
+        if($request->hasFile('image')){
+            $path = Storage::put('work_images', $request->image);
+            $formData['image'] = $path;
+        }
+
+        $work->fill($formData);
+
         $work->slug = Str::slug($work->title, '-');
 
         $work->save();
@@ -109,9 +111,21 @@ class WorkController extends Controller
 
         $formData= $request->all();
 
-        $work->update($formData);
+        if($request->hasFile('image')){
+            
+            if($work->image){
+                Storage::delete($work->image);
+            }
+
+            $path = Storage::put('work_images', $request->image);
+            $formData['image'] = $path;
+        
+        }
 
         $work->slug = Str::slug($formData['title'], '-');
+
+        $work->update($formData);
+
 
         $work->save();
 
@@ -132,6 +146,10 @@ class WorkController extends Controller
      */
     public function destroy(Work $work)
     {
+        if($work->image){
+            Storage::delete($work->image);
+        }
+
         $work->delete();
 
         return redirect()->route('admin.works.index');
@@ -147,7 +165,7 @@ class WorkController extends Controller
         [
             'title'=> 'required|min:2|max:50|unique:works,title',
             'description'=> 'required|min:2',
-            'image'=> 'required|min:2',
+            'image'=> 'nullable|image|max:4096',
             'date'=> 'nullable',
             'type_id'=>'nullable|exists:types,id',
             'technologies'=>'exists:technologies,id',
@@ -160,9 +178,9 @@ class WorkController extends Controller
             'title.max'=> 'Questo campo può avere massimo 50 caratteri',
             'title.unique'=> 'Questo campo è già esistente',
             'description.required'=> 'Questo campo non può essere lascaito vuoto',
-            'description.min'=> 'Questo campo deve avere minimo 2 caratter',
-            'image.required'=> 'Questo campo non può essere lascaito vuoto',
-            'image.min'=> 'Questo campo deve avere minimo 2 caratter',
+            'description.min'=> 'Questo campo deve avere minimo 2 caratter',          
+            'image.max'=> 'Il file è troppo grande',
+            'image.image'=> 'Il file deve essere una immagine',
             'type_id.exists'=>'Questo campo non è ammesso',
             'technologies.exists'=> 'Questo campo non è ammesso',
             'git_url.required'=> 'Questo campo non può essere lascaito vuoto',
@@ -186,7 +204,7 @@ class WorkController extends Controller
                 Rule::unique('works', 'title')->ignore($id),
             ],
             'description'=> 'required|min:2',
-            'image'=> 'required|min:2',
+            'image'=> 'nullable|image|max:4096',
             'date'=> 'nullable',
             'type_id'=>'nullable|exists:types,id',
             'git_url'=> 'required|min:2',
@@ -199,8 +217,8 @@ class WorkController extends Controller
             'title.unique'=> 'Questo campo è già esistente',
             'description.required'=> 'Questo campo non può essere lascaito vuoto',
             'description.min'=> 'Questo campo deve avere minimo 2 caratter',
-            'image.required'=> 'Questo campo non può essere lascaito vuoto',
-            'image.min'=> 'Questo campo deve avere minimo 2 caratter',
+            'image.max'=> 'Il file è troppo grande',
+            'image.image'=> 'Il file deve essere una immagine',
             'type_id.exists'=>'Questo campo non è ammesso',
             'git_url.required'=> 'Questo campo non può essere lascaito vuoto',
             'git_url.min'=> 'Questo campo deve avere minimo 2 caratter',

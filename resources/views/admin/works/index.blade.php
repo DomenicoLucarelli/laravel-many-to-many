@@ -9,7 +9,7 @@
     {{-- @dd($work->technologies[0]->name) --}}
         
     <div class="card" style="width: 18rem;">
-      <img src="{{$work->image}}" class="card-img-top" alt="...">
+      <img src="{{asset('storage/' . $work->image)}}" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title"><b>{{$work->title}}</b></h5>
         <p class="card-text">{{$work->description}}</p>

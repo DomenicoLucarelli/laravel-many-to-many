@@ -4,7 +4,7 @@
 @section('content')
 <h1 class="text-center mb-5 text-uppercase">Modifica il progetto</h1>
 <div class="container d-flex flex-column">
-    <form class="d-flex flex-column align-items-center gap-2" action="{{route('admin.works.update', $work)}}" method="POST">
+    <form class="d-flex flex-column align-items-center gap-2" action="{{route('admin.works.update', $work)}}" method="POST" enctype="multipart/form-data" >
 
         @csrf
         @method('PUT')
@@ -30,8 +30,8 @@
         </div>
         @enderror
             
-        <label for="image">Modifica src immagine</label>
-        <input class="form-control @error('image') is-invalid @enderror" type="text" id="image" name="image" placeholder="Inserisci src immagine" value="{{old('image') ?? $work->image}}">
+        <label for="image">Inserisci src immagine</label>
+        <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" placeholder="Inserisci immagine">
 
         @error('image')
         <div class="invalid-feedback">

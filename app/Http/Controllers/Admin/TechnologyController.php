@@ -91,9 +91,9 @@ class TechnologyController extends Controller
         $this->my_validation($request, $technology->id);
         $formData = $request->all();
 
-        $technology->update($formData);
-
         $technology->slug = Str::slug($formData['name'], '-');
+
+        $technology->update($formData);
 
         $technology->save();
 
